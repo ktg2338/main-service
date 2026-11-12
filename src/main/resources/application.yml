@@ -1,0 +1,105 @@
+spring:
+  application:
+    name: competition-service
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:local}
+  datasource:
+    url: ${DB_URL:}
+    username: ${DB_USERNAME:}
+    password: ${DB_PASSWORD:}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      connection-timeout: 20000
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 300000
+      max-lifetime: 1200000
+  jpa:
+    hibernate:
+      ddl-auto: ${DDL_AUTO:}
+    show-sql: ${SHOW_SQL:}
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+        jdbc:
+          batch_size: 20
+        order_inserts: true
+        order_updates: true
+        #db 생기면 삭제 !!!!!!!
+        default_schema: test
+    open-in-view: false
+#  data:
+#    redis:
+#      host: ${REDIS_HOST:}
+#      port: ${REDIS_PORT:}
+#      password: ${AZURE_REDIS_PASSWORD:}
+#      timeout: 5000ms
+#      ssl:
+#        enabled: ${REDIS_SSL:false}
+#      lettuce:
+#        pool:
+#          max-active: 8
+#          max-wait: -1ms
+#          max-idle: 8
+#          min-idle: 2
+#        shutdown-timeout: 100ms
+#  cache:
+#    type: redis
+#    redis:
+#      time-to-live: 600000 # 10분
+#      cache-null-values: false
+
+  security:
+      user:
+        name: user
+        password: none
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
+
+server:
+  port: ${SERVER_PORT:8080}
+  ssl:
+    enabled: ${REQUIRE_SSL:false}
+  error:
+    include-message: always
+    include-binding-errors: always
+  compression:
+    enabled: true
+    min-response-size: 1024
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
+  servlet:
+    session:
+      cookie:
+        domain: ${COOKIE_DOMAIN:localhost}
+        secure: ${COOKIE_SECURE:false}
+        same-site: ${COOKIE_SAME_SITE:None}
+        http-only: true
+        max-age: 604800
+
+# 로깅 설정
+logging:
+  level:
+    root: WARN
+    com.aifactory: INFO
+    org.hibernate.SQL: WARN
+    org.springframework.security: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+
+
+# API 문서 설정 (SpringDoc OpenAPI)
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    config-url: /api-docs/swagger-config
+    url: /api-docs
+    disable-swagger-default-url: true
+    display-request-duration: true
+    operations-sorter: method
+    tags-sorter: alpha
+    doc-expansion: none
+  show-actuator: false
+  default-consumes-media-type: application/json

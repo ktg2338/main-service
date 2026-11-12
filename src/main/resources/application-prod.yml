@@ -1,0 +1,63 @@
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    hikari:
+      connection-timeout: 30000
+      maximum-pool-size: 20
+      minimum-idle: 10
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      leak-detection-threshold: 60000
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: 50
+        order_inserts: true
+        order_updates: true
+
+#  data:
+#    redis:
+#      host: ${REDIS_HOST}
+#      port: ${REDIS_PORT}
+#      password: ${AZURE_REDIS_PASSWORD}
+#      ssl:
+#        enabled: true
+#      timeout: 10000ms
+#      lettuce:
+#        pool:
+#          max-active: 16
+#          max-wait: 5000ms
+#          max-idle: 8
+#          min-idle: 4
+#        shutdown-timeout: 200ms
+#        cluster:
+#          refresh:
+#            adaptive: true
+#            period: 30s
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: never
+  metrics:
+    export:
+      azure-monitor:
+        enabled: true
+
+
+

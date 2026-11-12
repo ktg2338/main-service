@@ -1,0 +1,53 @@
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    hikari:
+      connection-timeout: 30000
+      maximum-pool-size: 20
+      minimum-idle: 10
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      leak-detection-threshold: 60000
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: 50
+        order_inserts: true
+        order_updates: true
+
+#  data:
+#    redis:
+#      host: ${REDIS_HOST:localhost}
+#      port: ${REDIS_PORT:6379}
+#      timeout: 10000ms
+#      lettuce:
+#        pool:
+#          max-active: 16
+#          max-wait: 5000ms
+#          max-idle: 8
+#          min-idle: 4
+#        shutdown-timeout: 200ms
+#        cluster:
+#          refresh:
+#            adaptive: true
+#            period: 30s
+
+server:
+  port: 8082
+  servlet:
+    session:
+      cookie:
+        domain: localhost
+        secure: false
+        same-site: Lax
